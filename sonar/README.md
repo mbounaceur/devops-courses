@@ -10,3 +10,8 @@ sudo sysctl -w fs.file-max=131072
 sudo ulimit -n 131072
 sudo ulimit -u 8192
 ```
+
+To use Sonnar Cli Scanner, here is the code: 
+```bash
+docker run --rm --network=host -v "$(pwd):/usr/src" sonarsource/sonar-scanner-cli
+```
