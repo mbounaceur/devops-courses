@@ -1,5 +1,5 @@
 - name: Install Git, Docker, and Docker Compose
-  hosts: public
+  hosts: public # Admin
   become: yes
   vars:
     ansible_python_interpreter: /usr/bin/python3
@@ -9,9 +9,11 @@
         name: "*"
         state: latest
 
-    - name: Install Git
+    - name: Install Git + Python
       package:
-        name: git
+        name: 
+          - git
+          - python3-pip
         state: present
 
     - name: Install Docker

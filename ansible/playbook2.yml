@@ -1,0 +1,28 @@
+- name: Deploy Compose MERN App
+  hosts: public
+  become: yes
+  vars:
+    repo: devops-course
+    target_host: "{{ groups['public'][0] }}"
+  tasks:
+    - name: Clone git repo
+      ansible.builtin.git:
+        repo: https://github.com/mbounaceur/devops-courses.git
+        dest: /root/{{ repo }}
+        force: yes
+
+    - name: Display Public IP
+      debug:
+        var: target_host
+
+    - name: Remplace localhost by Public IP
+      replace:
+        path: /root/devops-course/compose/client/src/api/index.js
+        regexp: 'localhost'
+        replace: '{{ target_host }}'
+      become: yes
+
+    - name: Run container
+      shell:
+        cmd: "docker-compose -f docker-compose.yml up -d"
+        chdir: /root/devops-course/compose/
