@@ -1,13 +1,14 @@
 resource "aws_instance" "my-ec2" {
-  ami           = data.aws_ami.latest_amazon_linux_2023.id
+  ami                         = data.aws_ami.latest_amazon_linux_2023.id
   associate_public_ip_address = true
-  instance_type = var.instance_type
-  iam_instance_profile = var.iam_instance_profile
-  vpc_security_group_ids = [aws_security_group.sg-epita.id]
+  instance_type               = var.instance_type
+  iam_instance_profile        = var.iam_instance_profile
+  vpc_security_group_ids      = [aws_security_group.sg-epita.id]
+  key_name                    = "epita"
 
-#   tags = {
-#     Name = "EPITA"
-#   }
+  #   tags = {
+  #     Name = "EPITA"
+  #   }
 
 }
 
