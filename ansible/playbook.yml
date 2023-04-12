@@ -1,0 +1,35 @@
+- name: Install Git, Docker, and Docker Compose
+  hosts: public
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - name: Update yum packages
+      yum:
+        name: "*"
+        state: latest
+
+    - name: Install Git
+      package:
+        name: git
+        state: present
+
+    - name: Install Docker
+      yum:
+        name: docker
+        state: present
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+
+    - name: Install Docker Compose
+      get_url:
+        url: "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64"
+        dest: /usr/local/bin/docker-compose
+        mode: 'a+x'
+      when: ansible_distribution == 'Amazon' and ansible_distribution_version == '2'
+
+    - name: Test Docker Compose
+      command: docker-compose --version
